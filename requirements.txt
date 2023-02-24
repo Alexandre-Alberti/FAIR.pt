@@ -2,7 +2,6 @@ streamlit
 numpy
 scipy 
 matplotlib 
-fractions
 decimal 
 math 
 PIL 
