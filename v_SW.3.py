@@ -62,7 +62,7 @@ def vetorizar(texto, divisor):
 
 #img = Image.open("C:\\Users\\alexa\\Desktop\\FAIRlogo.jpg")
 #stlt.image(img, use_column_width=True)
-stlt.image("https://github.com/Alexandre-Alberti/FAIR.pt/blob/main/FAIRlogo.jpg")
+stlt.image("FAIRlogo.jpg")
 
 stlt.title('Sistema de Informação')
 stlt.text('')
