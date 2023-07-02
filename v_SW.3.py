@@ -582,7 +582,7 @@ def Res(A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_):
         
     A_ref = 1 - fun_A
         
-    indice_relativo = A_exercicio / A_ref
+    indice_relativo = (A_exercicio-A_ref) / (1-A_ref)
         
     print('T base', T_politica_base, 'Downtime', fun_A, 'Disponibilidade', A_ref)
         
