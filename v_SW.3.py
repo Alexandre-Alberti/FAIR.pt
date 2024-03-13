@@ -614,6 +614,7 @@ def amostras (A_exercicio, n, t_total, M_inf, M_sup, taxa_inf_todos, taxa_sup_to
     amostras_especificas_por_informante = np.zeros((n,num_it))
 
     for i in range (0, num_it):
+        stlt.write('iteração', i+1)
         #print('i =', i)
         r = rd.rand()
         p = 0     # número do informante cuja análise será considerada
