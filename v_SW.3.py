@@ -559,6 +559,7 @@ def Res(A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_):
 
         while criterio == 0:
             n = n+1
+            stlt.write('n',n)
             integral_p = quad(lambda t: Pm(n,t,grau_pol,coefs_pol)*fx(t),0,T)
             integral_probabilidade = integral_p[0] 
                 
