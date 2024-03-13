@@ -322,6 +322,8 @@ def fracionamento(X):
     
     base = float(base)
     potencia = float(potencia)
+    base1 = base/10
+    potencia1 = potencia + 1
     return (base,potencia)
 
 #    y = (np.log(X))/(np.log(10))
