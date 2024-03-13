@@ -559,7 +559,7 @@ def Res(A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_):
 
         while criterio == 0:
             n = n+1
-            stlt.write('n',n)
+            #stlt.write('n',n)
             integral_p = quad(lambda t: Pm(n,t,grau_pol,coefs_pol)*fx(t),0,T)
             integral_probabilidade = integral_p[0] 
                 
@@ -570,6 +570,7 @@ def Res(A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_):
             validador = validador + (Pm(n,T,grau_pol,coefs_pol)*Rx(T)) + integral_probabilidade
 
             if ((1-validador) < 10**-2) or ((n > 500) and ((1-validador) < 0.05)) or (n > 1000) : 
+                stlt.write('validador', validador)
                 criterio = 1
                     
         ED = (Df_*Fx(T)) + (Dp_*Rx(T)) + valor
