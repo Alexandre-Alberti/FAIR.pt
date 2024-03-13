@@ -433,7 +433,7 @@ def Pm (w, t, grau_pol, coefs_pol):
         p1b = integral_0[1]    # potencial da fatoração
             
         p1 = p1a**w
-        print('p1a', p1a, 'w', w, 'p1', p1)
+        stlt.write('p1a', p1a, 'w', w, 'p1', p1)
         p2 = np.exp(-integral[0])
         p3 = np.math.factorial(w)
             
