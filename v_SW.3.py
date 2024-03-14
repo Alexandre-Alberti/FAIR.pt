@@ -570,7 +570,7 @@ def Res(A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_):
         #print(ED(T)/EL(T))
         return (ED(T)/EL(T))
 
-    resultado_A = opt.minimize_scalar(DT_, bounds = [0.01,5*eta_], method = 'bounded')
+    resultado_A = opt.minimize_scalar(DT_, bounds = [0.01,2*eta_], method = 'bounded')
 
     fun_A = resultado_A.fun
     T_politica_base = resultado_A.x
