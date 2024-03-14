@@ -605,122 +605,128 @@ def amostras (A_exercicio, n, t_total, M_inf, M_sup, taxa_inf_todos, taxa_sup_to
     amostra = np.zeros(num_it)
     amostras_especificas_por_informante = np.zeros((n,num_it))
 
-    for i in range (0, num_it):
-        stlt.write('iteração', i+1)
-        #print('i =', i)
-        r = rd.rand()
-        p = 0     # número do informante cuja análise será considerada
-        for j in range (1, n+1):
-            if (r > ((j-1)*(1/n))) and (r <= (j*(1/n))):
-                p = j
-            else:
-                p = p
-                # p é o número do informante cuja análise será considerada
-        linha = p-1 #índice do informante considerado para coletar dados
-        
-        t = t_total[linha]
-        t = np.array(t)
-        elementos_t = len(t)
-        
-        M_inf_especifico = M_inf[linha]
-        M_inf_aj = np.array(M_inf_especifico)
-        M_inf_aj = M_inf_aj/100
-        
-        M_sup_especifico = M_sup[linha]
-        M_sup_aj = np.array(M_sup_especifico)
-        M_sup_aj = M_sup_aj/100
-        
-        taxa_inf = taxa_inf_todos[linha]
-        taxa_inf = np.array(taxa_inf)
-        
-        taxa_sup = taxa_sup_todos[linha]
-        taxa_sup = np.array(taxa_sup)
-        
-
-        # Parâmetros WEIBULL - falhas catastróficas
-        ref = 0    # REF - probabilidade associada a um ponto no tempo, que deve ser menor ou igual a probabilidade e instantes posteriores
-        vetor_prob = np.zeros (elementos_t)
-    
-        for k in range(0, elementos_t):
-            prob = 0
-            if ref < M_inf_aj[k]:
-                prob = rd.uniform(M_inf_aj[k], M_sup_aj[k], 1)
-            if ref >= M_inf_aj[k] and ref <= M_sup_aj[k]:
-                prob = rd.uniform(ref, M_sup_aj[k], 1)
-            if ref > M_sup_aj[k]:
-                prob = rd.uniform(ref, 1, 1)
-            vetor_prob[k] = prob
-            ref = prob
-
-        #definir beta e eta a partir de regressão
-        Xreg = np.zeros(elementos_t)
-        Yreg = np.zeros(elementos_t)
-        for k in range (0, elementos_t):
-            Xreg[k] = np.log(t[k])
-            Yreg[k] = np.log(np.log(1/(1-vetor_prob[k])))
-        regressao = st.linregress(Xreg,Yreg)
-        A_reg = - regressao.intercept
-        B_reg = regressao.slope
-    
-        beta_ = B_reg #parâmetro de forma - distribuição de probabilidade para falha catastrófica (WEIBULL)
-        eta_ = np.exp (A_reg/beta_) #parâmetro de escala - distribuição de probabilidade para falha catastrófica (WEIBULL)
-
-        ## Função Característica da Evolução da Taxa de Falhas Menores
-        escolha = 0
-            
-        while escolha == 0:
-            vetor_taxa = np.zeros(elementos_t)
-                
-            for k in range (0, elementos_t):
-                vetor_taxa[k] = rd.uniform (taxa_inf[k], taxa_sup[k], 1)
-                
-            desvio_otm = 10**100    # começo com altíssimo limiar para início das iterações
-                
-            grau_pol = -1      
-            coefs_pol = 0
-            criterio = 0
-                
-            while criterio == 0:
-                grau_pol = grau_pol + 1
-                pol_ajuste = np.polyfit(t, vetor_taxa, grau_pol, full=True)
-                desvio_pol = (pol_ajuste[1])/(len(t)-(grau_pol+1))
-                    
-                if desvio_pol <= desvio_otm:
-                    desvio_otm = desvio_pol
-                    coefs_pol = pol_ajuste[0]
+    #for i in range (0, num_it):
+    n_iteracoes_validas = 0
+    while n_iteracoes_validas < num_it:
+        n_iteracoes_validas = n_iteracoes_validas + 1
+        try:
+            stlt.write('iteração', n_iteracoes_validas)
+            #print('i =', i)
+            r = rd.rand()
+            p = 0     # número do informante cuja análise será considerada
+            for j in range (1, n+1):
+                if (r > ((j-1)*(1/n))) and (r <= (j*(1/n))):
+                    p = j
                 else:
-                    grau_pol = grau_pol - 1
-                    criterio = 1
-                        
-            def taxa_teste (t):
-                taxa_funcao = 0
-                grau_ref = grau_pol
-                local = -1
-            
-                for ii in range (0, grau_pol+1):
-                    local = local + 1
-                    coefs_ = coefs_pol [local]
-                    taxa_funcao = taxa_funcao + coefs_*(t**grau_ref)
-                    grau_ref = grau_ref - 1 
-                return taxa_funcao 
-                
-            teste_min = opt.minimize_scalar(taxa_teste, bounds = [0.01, 2*eta_], method = 'bounded')
-            ponto_min = teste_min.fun
-                
-            if ponto_min >= 0:
-                escolha = 1
-                
-        print(grau_pol,coefs_pol)
-
-        Df_ = rd.uniform (Df[0], Df[1], 1)
-        Dp_ = rd.uniform (Dp[0], Dp[1], 1)
-        Dm_ = rd.uniform (Dm[0], Dm[1], 1)
-
-        indice_relativo = Res (A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_)
-    
-        amostra[i] = indice_relativo #acumulando dados
-        amostras_especificas_por_informante[linha][i] = indice_relativo
+                    p = p
+                    # p é o número do informante cuja análise será considerada
+            linha = p-1 #índice do informante considerado para coletar dados
         
+            t = t_total[linha]
+            t = np.array(t)
+            elementos_t = len(t)
+        
+            M_inf_especifico = M_inf[linha]
+            M_inf_aj = np.array(M_inf_especifico)
+            M_inf_aj = M_inf_aj/100
+        
+            M_sup_especifico = M_sup[linha]
+            M_sup_aj = np.array(M_sup_especifico)
+            M_sup_aj = M_sup_aj/100
+        
+            taxa_inf = taxa_inf_todos[linha]
+            taxa_inf = np.array(taxa_inf)
+        
+            taxa_sup = taxa_sup_todos[linha]
+            taxa_sup = np.array(taxa_sup)
+        
+
+            # Parâmetros WEIBULL - falhas catastróficas
+            ref = 0    # REF - probabilidade associada a um ponto no tempo, que deve ser menor ou igual a probabilidade e instantes posteriores
+            vetor_prob = np.zeros (elementos_t)
+    
+            for k in range(0, elementos_t):
+                prob = 0
+                if ref < M_inf_aj[k]:
+                    prob = rd.uniform(M_inf_aj[k], M_sup_aj[k], 1)
+                if ref >= M_inf_aj[k] and ref <= M_sup_aj[k]:
+                    prob = rd.uniform(ref, M_sup_aj[k], 1)
+                if ref > M_sup_aj[k]:
+                    prob = rd.uniform(ref, 1, 1)
+                vetor_prob[k] = prob
+                ref = prob
+
+            #definir beta e eta a partir de regressão
+            Xreg = np.zeros(elementos_t)
+            Yreg = np.zeros(elementos_t)
+            for k in range (0, elementos_t):
+                Xreg[k] = np.log(t[k])
+                Yreg[k] = np.log(np.log(1/(1-vetor_prob[k])))
+            regressao = st.linregress(Xreg,Yreg)
+            A_reg = - regressao.intercept
+            B_reg = regressao.slope
+    
+            beta_ = B_reg #parâmetro de forma - distribuição de probabilidade para falha catastrófica (WEIBULL)
+            eta_ = np.exp (A_reg/beta_) #parâmetro de escala - distribuição de probabilidade para falha catastrófica (WEIBULL)
+
+            ## Função Característica da Evolução da Taxa de Falhas Menores
+            escolha = 0
+            
+            while escolha == 0:
+                vetor_taxa = np.zeros(elementos_t)
+                
+                for k in range (0, elementos_t):
+                    vetor_taxa[k] = rd.uniform (taxa_inf[k], taxa_sup[k], 1)
+                
+                desvio_otm = 10**100    # começo com altíssimo limiar para início das iterações
+                
+                grau_pol = -1      
+                coefs_pol = 0
+                criterio = 0
+                
+                while criterio == 0:
+                    grau_pol = grau_pol + 1
+                    pol_ajuste = np.polyfit(t, vetor_taxa, grau_pol, full=True)
+                    desvio_pol = (pol_ajuste[1])/(len(t)-(grau_pol+1))
+                    
+                    if desvio_pol <= desvio_otm:
+                        desvio_otm = desvio_pol
+                        coefs_pol = pol_ajuste[0]
+                    else:
+                        grau_pol = grau_pol - 1
+                        criterio = 1
+                        
+                def taxa_teste (t):
+                    taxa_funcao = 0
+                    grau_ref = grau_pol
+                    local = -1
+            
+                    for ii in range (0, grau_pol+1):
+                        local = local + 1
+                        coefs_ = coefs_pol [local]
+                        taxa_funcao = taxa_funcao + coefs_*(t**grau_ref)
+                        grau_ref = grau_ref - 1 
+                    return taxa_funcao 
+                
+                teste_min = opt.minimize_scalar(taxa_teste, bounds = [0.01, 2*eta_], method = 'bounded')
+                ponto_min = teste_min.fun
+                
+                if ponto_min >= 0:
+                    escolha = 1
+                
+            print(grau_pol,coefs_pol)
+
+            Df_ = rd.uniform (Df[0], Df[1], 1)
+            Dp_ = rd.uniform (Dp[0], Dp[1], 1)
+            Dm_ = rd.uniform (Dm[0], Dm[1], 1)
+
+            indice_relativo = Res (A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_)
+    
+            amostra[n_iteracoes_validas] = indice_relativo #acumulando dados
+            amostras_especificas_por_informante[linha][n_iteracoes_validas] = indice_relativo
+        except:
+            n_iteracoes_validas = n_iteracoes_validas - 1
+            continue
 
     qtd_n = np.zeros (n, dtype=list)
     for ii in range(0,n): # contagem de observações por especialista
