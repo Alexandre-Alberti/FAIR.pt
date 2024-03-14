@@ -608,9 +608,9 @@ def amostras (A_exercicio, n, t_total, M_inf, M_sup, taxa_inf_todos, taxa_sup_to
     #for i in range (0, num_it):
     n_iteracoes_validas = 0
     while n_iteracoes_validas < num_it:
-        n_iteracoes_validas = n_iteracoes_validas + 1
+        #n_iteracoes_validas = n_iteracoes_validas + 1
         try:
-            stlt.write('iteração', n_iteracoes_validas)
+            #stlt.write('iteração', n_iteracoes_validas)
             #print('i =', i)
             r = rd.rand()
             p = 0     # número do informante cuja análise será considerada
@@ -724,8 +724,10 @@ def amostras (A_exercicio, n, t_total, M_inf, M_sup, taxa_inf_todos, taxa_sup_to
     
             amostra[n_iteracoes_validas] = indice_relativo #acumulando dados
             amostras_especificas_por_informante[linha][n_iteracoes_validas] = indice_relativo
+            n_iteracoes_validas = n_iteracoes_validas + 1
+            stlt.write('iteração', n_iteracoes_validas)
         except:
-            n_iteracoes_validas = n_iteracoes_validas - 1
+            #n_iteracoes_validas = n_iteracoes_validas - 1
             continue
 
     qtd_n = np.zeros (n, dtype=list)
