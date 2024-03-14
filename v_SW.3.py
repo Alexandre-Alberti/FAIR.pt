@@ -560,7 +560,7 @@ def Res(A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_):
             validador = validador + (Pm(n,T,grau_pol,coefs_pol)*Rx(T)) + integral_probabilidade
 
             if ((1-validador) < 10**-2) or ((n > 5000) and ((1-validador) < 0.05)): 
-                #stlt.write('validador', validador)
+                stlt.write('validador', validador)
                 criterio = 1
                     
         ED = (Df_*Fx(T)) + (Dp_*Rx(T)) + valor
