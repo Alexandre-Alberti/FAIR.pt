@@ -66,6 +66,7 @@ def decimal(p):
                 base = base.__add__(base_in[i])
         base = base.__add__('e+0')
                 
+    stlt.write('base',base)
     return base
 
 def vetorizar(texto, divisor):
