@@ -601,7 +601,7 @@ B_grande = 1000000000000000
 #def amostras (A_exercicio, n, t, elementos_t, M_inf_aj, M_sup_aj, taxa_inf, taxa_sup, Df, Dp, Dm):
 def amostras (A_exercicio, n, t_total, M_inf, M_sup, taxa_inf_todos, taxa_sup_todos, Df, Dp, Dm):
         
-    num_it = 100*n
+    num_it = 50*n
     amostra = np.zeros(num_it)
     amostras_especificas_por_informante = np.zeros((n,num_it))
 
