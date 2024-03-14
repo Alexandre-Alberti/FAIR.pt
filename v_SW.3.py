@@ -559,7 +559,7 @@ def Res(A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_):
             # critério de convergência
             validador = validador + (Pm(n,T,grau_pol,coefs_pol)*Rx(T)) + integral_probabilidade
 
-            if ((1-validador) < 10**-1) or ((n > 1000) and ((1-validador) < 0.05)): 
+            if ((1-validador) < 10**-2) or ((n > 5000) and ((1-validador) < 0.05)): 
                 stlt.write('validador', validador)
                 criterio = 1
                     
