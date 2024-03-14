@@ -27,24 +27,26 @@ def decimal(p):
             posicao_ponto = i
     
     if posicao_ponto == algs+1:        
-        base = p[0]
+        base = str(0)
+        #base = p[0]
         base = base.__add__('.')
-        for i in range(1,101):
+        for i in range(0,100):
             if i <= (algs-1):
                 base = base.__add__(p[i])
             else:
                 base = base.__add__('0')
-        expo = str(algs-1)
+        expo = str(algs)
         base = base.__add__('e+')
         base = base.__add__(expo)
-    elif posicao_ponto > 1:
+    elif posicao_ponto >= 1:
         base_ini = ''
         for i in range(0,posicao_ponto):
             base_ini = base_ini.__add__(p[i])
-        expo = str(len(base_ini)-1)
-        base = p[0]
-        base = base.__add__('.')
-        for i in range(1,len(base_ini)):
+        expo = str(len(base_ini))
+        base = '0.'
+        base = base.__add__(base_ini)
+        #base = base.__add__('.')
+        for i in range(posicao_ponto+1,len(p)):
             if i <= 101:
                 base = base.__add__(p[i])
         tam = len(base)
@@ -53,20 +55,7 @@ def decimal(p):
                 base = base.__add__('0')
         base = base.__add__('e+')
         base = base.__add__(expo)
-    else:
-        base_in = p
-        tamm = len(base_in)
-        if tamm < 102:
-            base = base_in
-            for i in range(0,102-tamm):
-                base = base.__add__('0')
-        else:
-            base = ''
-            for i in range(0,102):
-                base = base.__add__(base_in[i])
-        base = base.__add__('e+0')
-                
-    stlt.write('base',base,'ref')
+           
     return base
 
 def vetorizar(texto, divisor):
