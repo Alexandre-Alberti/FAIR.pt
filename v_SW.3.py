@@ -117,7 +117,7 @@ stlt.subheader('Análise Comparativa do Desempenho Relativo da Manutenção de S
 stlt.text('')
 stlt.text('Insira as informações solicitadas nos campos abaixo ')
 
-email = st.text_input("Email para envio dos resultados:")
+email = stlt.text_input("Email para envio dos resultados:")
 
 # INFORMAÇÕES DO SISTEMA 1
 
