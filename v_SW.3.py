@@ -14,6 +14,38 @@ from scipy.integrate import quad
 from matplotlib import pyplot as plt
 import scipy.optimize as opt
 from scipy import stats as st
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+#
+#
+# Função para enviar e-mail
+def send_email(to_email, subject, body):
+    from_email = "fairsis@outlook.com"  # email de envio
+    from_password = "fair4321"  # senha do email
+    smtp_server = "smtp.office365.com"  # serve para emails outlook
+    smtp_port = 587  # Porta SMTP
+
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = to_email
+    msg['Subject'] = subject
+
+    msg.attach(MIMEText(body, 'plain'))
+
+    try:
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(from_email, from_password)
+        text = msg.as_string()
+        server.sendmail(from_email, to_email, text)
+        server.quit()
+        st.success('Email enviado com sucesso!')
+    except Exception as e:
+        st.error(f'Erro ao enviar email: {e}')
+#
+#
+#
 
 #essa função traz número pra uma notação científica
 def decimal(p):
@@ -84,6 +116,8 @@ stlt.text('')
 stlt.subheader('Análise Comparativa do Desempenho Relativo da Manutenção de Sistemas Técnicos')
 stlt.text('')
 stlt.text('Insira as informações solicitadas nos campos abaixo ')
+
+email = st.text_input("Email para envio dos resultados:")
 
 # INFORMAÇÕES DO SISTEMA 1
 
@@ -969,10 +1003,26 @@ if stlt.button('Análise Comparativa'):
 
         if dif_teta >= 0:
             stlt.write(f'A diferença média no indicador de desempenho relativo da manutenção é da ordem de': dif_teta)
-            stlt.write(f'O sistema {id_B} pode se beneficiar de um ganho de disponibilidade da ordem de': ganho_pB, '%')
+            stlt.write(f'O sistema {id_B} pode se beneficiar de um ganho de disponibilidade da ordem de {ganho_pB} %')
+            resultado_texto = f"A manutenção do sistema {id_A} tem desempenho superior à manutenção do sistema {id_B} com probabilidade {[contagens[0]*100} \n O sistema {id_B} pode se beneficiar de um ganho de disponibilidade da ordem de {ganho_pB} %" 
         else:
             stlt.write(f'A diferença média no indicador de desempenho relativo da manutenção é da ordem de': -dif_teta)
-            stlt.write(f'O sistema {id_A} pode se beneficiar de um ganho de disponibilidade da ordem de': ganho_pA, '%')
+            stlt.write(f'O sistema {id_A} pode se beneficiar de um ganho de disponibilidade da ordem de {ganho_pA} %')
+            resultado_texto = f"A manutenção do sistema {id_B} tem desempenho superior à manutenção do sistema {id_A} com probabilidade {[contagens[0]*100} \n O sistema {id_A} pode se beneficiar de um ganho de disponibilidade da ordem de {ganho_pA} %" 
+        
+        # Envio de EMAIL
+        if email:
+            try:
+                send_email(
+                    to_email=email,
+                    subject="Sistema FAIR - Resultado da Análise",
+                    body=resultado_texto)
+            except Exception as e:
+                st.error(f'Erro ao enviar email: {e}')
+        else:
+            st.error("Por favor, digite um email válido.")
+        #
+        #
         
         # PLOTAGEM DOS GRÁFICOS
         n_pontos = 1000
