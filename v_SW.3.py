@@ -15,6 +15,7 @@ from matplotlib import pyplot as plt
 import scipy.optimize as opt
 from scipy import stats as st
 
+#essa função traz número pra uma notação científica
 def decimal(p):
     algs = len(p)
     posicao_ponto = algs+1
@@ -41,7 +42,6 @@ def decimal(p):
         expo = str(len(base_ini))
         base = '0.'
         base = base.__add__(base_ini)
-        #base = base.__add__('.')
         for i in range(posicao_ponto+1,len(p)):
             if i <= 101:
                 base = base.__add__(p[i])
@@ -54,24 +54,20 @@ def decimal(p):
            
     return base
 
+#o objetivo dessa função é transformar um conjunto de números divididos por vírgula em um vetor
 def vetorizar(texto, divisor):
     tam = len(texto)
-    #print(tam)
     vetor_final = []
-    #print(vetor_final)
     numero = ''
-    #print(numero)
     for i in range(0,tam):
         if (texto[i] == ','):
             numero_f = float(numero)
             numero = ''
             vetor_final = np.append(vetor_final, numero_f)
-            #print(numero_f, vetor_final)
         elif i == tam-1:
             numero = numero.__add__(texto[i])
             numero_f = float(numero)
             vetor_final = np.append(vetor_final, numero_f)
-            #print(numero_f, vetor_final)
         else:
             numero = numero.__add__(texto[i])
     
@@ -81,36 +77,34 @@ def vetorizar(texto, divisor):
     
     return(vetor_final)
 
-#img = Image.open("C:\\Users\\alexa\\Desktop\\FAIRlogo.jpg")
-#stlt.image(img, use_column_width=True)
-stlt.image("FAIRlogo.jpg")
 
+stlt.image("FAIRlogo.jpg")
 stlt.title('Sistema de Informação')
 stlt.text('')
-stlt.subheader('Análise de Desempenho Relativo da Manutenção e Comparação Justa do Desempenho de Sistemas')
+stlt.subheader('Análise Comparativa do Desempenho Relativo da Manutenção de Sistemas Técnicos')
 stlt.text('')
 stlt.text('Insira as informações solicitadas nos campos abaixo ')
 
-#stlt.text("SISTEMA 1 - Informações")
+# INFORMAÇÕES DO SISTEMA 1
 
 stlt.write('<font color="red" size="5"><b>SISTEMA 1 - Informações</b></font>', unsafe_allow_html=True)
-
 stlt.text('')
 id_A = stlt.text_input("Identificação do sistema (S1):")
 
-#stlt.text("Histórico de desempenho")
+# Histórico de desempenho
 stlt.write('<font color="blue" size="5"><b>Histórico de desempenho</b></font>', unsafe_allow_html=True)
 
-A_exercicio_A = stlt.number_input("Disponibilidade no período observado (% de tempo disponível) (S1):")
+A_exercicio_A = stlt.number_input("Disponibilidade no período de observação (% de tempo disponível) (S1):")
 A_exercicio_A = A_exercicio_A/100
-#stlt.text("Coleta de dados para análise de desempenho relativo (S1)")
 
-#stlt.text("Tempo estimado de atividades de manutenção (S1)")
+# Coleta de dados para análise de desempenho relativo (S1)
+
+#Tempo estimado de atividades de manutenção
 stlt.write('<font color="black" size="5"><b>Tempo estimado de atividades de manutenção</b></font>', unsafe_allow_html=True)
 
-#stlt.text("Medida de tempo:")
+#Medida de tempo
 opcoes_tempo = ["Minuto","Hora","Dia"]
-unidade_A1 = stlt.selectbox("Medida de tempo (S1):", opcoes_tempo)
+unidade_A1 = stlt.selectbox("Medida de tempo de referência (S1):", opcoes_tempo)
 
 if unidade_A1 == 'Minuto':
     div_A1 = 60*24
@@ -118,7 +112,6 @@ elif unidade_A1 == 'Hora':
     div_A1 = 24
 else:
     div_A1 = 1
-
 
 Df_A_min = stlt.number_input("Tempo médio para manutenção corretiva de falhas críticas (mínimo) (S1):")
 Df_A_max = stlt.number_input("Tempo médio para manutenção corretiva de falhas críticas (máximo) (S1):")
@@ -132,7 +125,7 @@ Dm_A_min = stlt.number_input("Tempo médio para reparo pontual (mínimo) (S1):")
 Dm_A_max = stlt.number_input("Tempo médio para reparo pontual (máximo) (S1):")
 Dm_A = [Dm_A_min/div_A1, Dm_A_max/div_A1]
 
-#stlt.text("Análise de Confiabilidade (S1)")
+#Análise de Confiabilidade
 stlt.write('<font color="black" size="5"><b>Análise de Confiabilidade</b></font>', unsafe_allow_html=True)
 n_A = stlt.text_input("Número de especialistas consultados (S1):")
 if n_A == '':
@@ -162,7 +155,6 @@ for i in range(0,n_A):
     t_Ai = vetorizar(t_Ai, div_A12)
     t_A[i] = t_Ai
     
-    
     p_min = stlt.text_input(f"Probabilidade acumulada de falha crítica (% mínimo) (S1.E{i+1}):")
     p_min = vetorizar(p_min, 1)
     M_inf_A[i] = p_min
@@ -179,22 +171,21 @@ for i in range(0,n_A):
     tx_max = vetorizar(tx_max, 1)
     taxa_sup_A[i] = tx_max
 
-##
+# SISTEMA 2 - Informações
 
-#stlt.text("SISTEMA 2 - Informações")
 stlt.write('<font color="red" size="5"><b>SISTEMA 2 - Informações</b></font>', unsafe_allow_html=True)
-
 stlt.text('')
 id_B = stlt.text_input("Identificação do sistema (S2):")
 
-#stlt.text("Histórico de desempenho")
+#Histórico de desempenho
 stlt.write('<font color="blue" size="5"><b>Histórico de desempenho</b></font>', unsafe_allow_html=True)
 
-A_exercicio_B = stlt.number_input("Disponibilidade no período observado (% de tempo disponível) (S2):")
+A_exercicio_B = stlt.number_input("Disponibilidade no período de observação (% de tempo disponível) (S2):")
 A_exercicio_B = A_exercicio_B/100
-#stlt.text("Coleta de dados para análise de desempenho relativo (S1)")
 
-#stlt.text("Tempo estimado de atividades de manutenção (S2)")
+# Coleta de dados para análise de desempenho relativo
+
+# Tempo estimado de atividades de manutenção (S2)
 stlt.write('<font color="black" size="5"><b>Tempo estimado de atividades de manutenção (S2)</b></font>', unsafe_allow_html=True)
 
 #stlt.text("Medida de tempo:")
@@ -221,7 +212,7 @@ Dm_B_min = stlt.number_input("Tempo médio para reparo pontual (mínimo) (S2):")
 Dm_B_max = stlt.number_input("Tempo médio para reparo pontual (máximo) (S2):")
 Dm_B = [Dm_B_min/div_B1, Dm_B_max/div_B1]
 
-#stlt.text("Análise de Confiabilidade (S2)")
+# Análise de Confiabilidade (S2)
 stlt.write('<font color="black" size="5"><b>Análise de Confiabilidade (S2)</b></font>', unsafe_allow_html=True)
 
 n_B = stlt.text_input("Número de especialistas consultados (S2):")
@@ -272,39 +263,38 @@ for i in range(0,n_B):
 #
 
 ## Coleta de dados feita, hora de fazer o tratamento dos dados
-#
-#
 # FIM DA COLETA
 #
-#
 
-#
 # Definição de funções básicas
+
+#essa função vai trabalhar com notação científica, facilitando o trabalho com grandes números
 def fracionamento(X):
     if (isinstance(X, str) == True):
+        #os string vem do uso da função "decimal"
         X_str = X
         base = ''
         potencia = ''
         for i in range(0,102):
             base = base.__add__(X_str[i])
         for i in range(103,len(X_str)):
-            print(X_str[i],'X_str')
+            #print(X_str[i],'X_str')
             potencia = potencia.__add__(X_str[i])
-            print(potencia,'pot')
+            #print(potencia,'pot')
 
     else:    
         X_ = str(X)
-        print(X_)
+        #print(X_)
         X_str = decimal(X_)
-        print(X_str,'X_str')
+        #print(X_str,'X_str')
         base = ''
         potencia = ''
         for i in range(0,102):
             base = base.__add__(X_str[i])
         for i in range(103,len(X_str)):
-            print(X_str[i],'X_str')
+            #print(X_str[i],'X_str')
             potencia = potencia.__add__(X_str[i])
-            print(potencia,'pot')
+            #print(potencia,'pot')
     
     base = float(base)
     potencia = float(potencia)
@@ -312,20 +302,9 @@ def fracionamento(X):
     potencia1 = potencia + 1
     return (base1,potencia1)
 
-#    y = (np.log(X))/(np.log(10))
-#   k = int(y)
-#    if k >= 0:
-#        w = k
-#    else:
-#        w = k-1
-#    potencia = w+1
-#    base = X*(10**-potencia)
-#    return (base,potencia)
-
 #ENTRAR AQUI A FUNÇÃO PRA DISPONIBILIDADE
 
 #definindo a função da distribuição não homogênea de Poisson
-
 def Pm (w, t, grau_pol, coefs_pol): 
     #vou definir a função taxa de falha antes de seguir com os condicionais de formulação
     def taxa (t, grau_pol, coefs_pol):   ##ajuste polinomial que melhor representa a evolução da taxa de falhas menores
@@ -368,6 +347,7 @@ def Pm (w, t, grau_pol, coefs_pol):
         p2 = decimal(str(p2x))
                         
         #p3 = '%.100e'%Decimal(np.math.factorial(w))
+        #print('fatorial', np.math.factorial(w))
         p3 = decimal(str(np.math.factorial(w)))
             
         posi = 102
@@ -423,6 +403,7 @@ def Pm (w, t, grau_pol, coefs_pol):
         p1 = p1a**w
         #stlt.write('p1a', p1a, 'w', w, 'p1', p1)
         p2 = np.exp(-integral[0])
+        #print('fatorial', np.math.factorial(w))
         p3 = np.math.factorial(w)
             
         if (p1b*w <= 300) and (p3 <= 10**300):   
@@ -542,10 +523,11 @@ def Res(A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_):
         n = -1
         valor = 0
         validador = 0
+        n_max = (T/Dm_)/4
 
         while criterio == 0:
             n = n+1
-            #stlt.write('n',n)
+            #print('n',n)
             integral_p = quad(lambda t: Pm(n,t,grau_pol,coefs_pol)*fx(t),0,T)
             integral_probabilidade = integral_p[0] 
                 
@@ -553,20 +535,31 @@ def Res(A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_):
             valor = valor + (n*Dm_)*((Pm(n,T,grau_pol,coefs_pol)*Rx(T)) + integral_probabilidade)
                 
             # critério de convergência
-            validador = validador + (Pm(n,T,grau_pol,coefs_pol)*Rx(T)) + integral_probabilidade
+            extra1 = (Pm(n,T,grau_pol,coefs_pol)*Rx(T))
+            extra2 = integral_probabilidade
+            validador = validador + extra1 + extra2
+            
+            #print('n',n,'n_max',n_max,'validador',validador,'extra1',extra1, 'extra2',extra2)
 
-            if ((1-validador) < 10**-2) or ((n > 5000) and ((1-validador) < 0.05)): 
-                #stlt.write('validador', validador)
+            if ((1-validador) < 10**-2) and (n <= n_max): 
+                #print('validador', validador)
                 criterio = 1
+            elif (n > n_max):
+                valor = valor + (1-validador)*0.5*T
+                #print('valor',valor)
+                criterio = 1
+            
                     
         ED = (Df_*Fx(T)) + (Dp_*Rx(T)) + valor
+        #print('ED',ED)
         return ED
 
     def DT_(T): # nível de downtime
-        #print(ED(T)/EL(T))
-        return (ED(T)/EL(T))
+        DT = (ED(T)/EL(T))
+        #print(DT)
+        return DT
 
-    resultado_A = opt.minimize_scalar(DT_, bounds = [0.01,2*eta_], method = 'bounded')
+    resultado_A = opt.minimize_scalar(DT_, bounds = [0.01*eta_,4*eta_], method = 'bounded')
 
     fun_A = resultado_A.fun
     T_politica_base = resultado_A.x
@@ -583,31 +576,22 @@ def Res(A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_):
 
 #Dados de entrada - Parâmetros de execução
 percentil_referencia_pl = 95
-B_grande = 1000000000000000
+B_grande = 100000000000000000000
 #num_it = 150
 
-#
-#    Amostragem de Dados    
-#
-
-# n - número de informantes, elementos_t - número de pontos de análise, t - identificação dos pontos
-# M_inf_aj, M_sup_aj, taxa_inf, taxa_sup - matrizes com as faixas de probabilidades
-# Df - limites DT em falhas maiores, Dp - limites DT em manutenção preventiva, Dm - limites DT em minimo reparo
-    
-#def amostras (A_exercicio, n, t, elementos_t, M_inf_aj, M_sup_aj, taxa_inf, taxa_sup, Df, Dp, Dm):
 def amostras (A_exercicio, n, t_total, M_inf, M_sup, taxa_inf_todos, taxa_sup_todos, Df, Dp, Dm):
         
-    num_it = 50*n
+    num_it = 100*n
     amostra = np.zeros(num_it)
     amostras_especificas_por_informante = np.zeros((n,num_it))
 
     #for i in range (0, num_it):
     n_iteracoes_validas = 0
-    while n_iteracoes_validas < num_it:
+    while n_iteracoes_validas < (num_it-1):
         #n_iteracoes_validas = n_iteracoes_validas + 1
         try:
             #stlt.write('iteração', n_iteracoes_validas)
-            #print('i =', i)
+            print('antes =', n_iteracoes_validas)
             r = rd.rand()
             p = 0     # número do informante cuja análise será considerada
             for j in range (1, n+1):
@@ -685,12 +669,13 @@ def amostras (A_exercicio, n, t_total, M_inf, M_sup, taxa_inf_todos, taxa_sup_to
                     pol_ajuste = np.polyfit(t, vetor_taxa, grau_pol, full=True)
                     desvio_pol = (pol_ajuste[1])/(len(t)-(grau_pol+1))
                     
-                    if desvio_pol <= desvio_otm:
+                    if desvio_pol.size > 0 and desvio_pol <= desvio_otm:
                         desvio_otm = desvio_pol
                         coefs_pol = pol_ajuste[0]
                     else:
                         grau_pol = grau_pol - 1
                         criterio = 1
+                #print('desvio_pol',desvio_pol,'grau_pol',grau_pol)
                         
                 def taxa_teste (t):
                     taxa_funcao = 0
@@ -704,24 +689,47 @@ def amostras (A_exercicio, n, t_total, M_inf, M_sup, taxa_inf_todos, taxa_sup_to
                         grau_ref = grau_ref - 1 
                     return taxa_funcao 
                 
-                teste_min = opt.minimize_scalar(taxa_teste, bounds = [0.01, 2*eta_], method = 'bounded')
+                teste_min = opt.minimize_scalar(taxa_teste, bounds = [0.01*eta_, 4*eta_], method = 'bounded')
                 ponto_min = teste_min.fun
+                #print('ponto_min', ponto_min)
                 
                 if ponto_min >= 0:
                     escolha = 1
                 
-            print(grau_pol,coefs_pol)
+            #print(grau_pol,coefs_pol)
+            Dm_ = rd.uniform(Dm[0],Dm[1],1)
+            
+            Dp_ = 0
+            if Dm_ <= Dp[0]:
+                Dp_ = rd.uniform(Dp[0],Dp[1],1)
+            elif ((Dm_ > Dp[0]) and (Dm_ <= Dp[1])):
+                Dp_ = rd.uniform(Dm_,Dp[1])
+            else:
+                Dp_ = 1.1*Dm_
+            
+            Df_ = 0
+            if Dp_ <= Df[0]:
+                Df_ = rd.uniform(Df[0],Df[1],1)
+            elif ((Dp_ > Df[0]) and (Dp_ <= Df[1])):
+                Df_ = rd.uniform(Dp_,Df[1])
+            else:
+                Df_ = 1.1*Dp_
+            
+            #print('Dm,Dp,Df',Dm_,Dp_,Df_)
 
-            Df_ = rd.uniform (Df[0], Df[1], 1)
-            Dp_ = rd.uniform (Dp[0], Dp[1], 1)
-            Dm_ = rd.uniform (Dm[0], Dm[1], 1)
+            #Df_ = rd.uniform (Df[0], Df[1], 1)
+            #Dp_ = rd.uniform (Dp[0], Dp[1], 1)
+            #Dm_ = rd.uniform (Dm[0], Dm[1], 1)
 
             indice_relativo = Res (A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_)
+            print('indice relativo',indice_relativo)
     
             amostra[n_iteracoes_validas] = indice_relativo #acumulando dados
             amostras_especificas_por_informante[linha][n_iteracoes_validas] = indice_relativo
             n_iteracoes_validas = n_iteracoes_validas + 1
-            stlt.write('iteração', n_iteracoes_validas)
+            print('i =', n_iteracoes_validas)
+            
+            #stlt.write('iteração', n_iteracoes_validas)
         except:
             #n_iteracoes_validas = n_iteracoes_validas - 1
             continue
@@ -837,7 +845,7 @@ def d_empirica (t, amostra, num_it):
                 d_empirica = vetor_probs[i-1]
     return d_empirica
 
-def comparacoes(amostra_A,amostra_B,rep):
+def comparacoes(amostra_A,amostra_B,disp_sA,disp_sB,rep):
     amostra_A.sort()
     amostra_B.sort()
     l_A = len(amostra_A)
@@ -882,11 +890,26 @@ def comparacoes(amostra_A,amostra_B,rep):
     contagem_A = 0
     contagem_B = 0
     
+    difff = 0
+    ganhoA = 0
+    ganhoB = 0
+    
     for j in range(0,rep):
         yA = rd.rand()
         XA = X_inverso (yA, vetor_posA, vetor_probsA)
+        A_min_sA = (disp_sA - XA)/(1 - XA)
+        
         yB = rd.rand()
         XB = X_inverso (yB, vetor_posB, vetor_probsB)
+        A_min_sB = (disp_sB - XB)/(1 - XB)
+
+        A_sA_posB = XB + (1-XB)*A_min_sA
+        A_sB_posA = XA + (1-XA)*A_min_sB
+        
+        difff = difff + (XA - XB)
+        ganhoA = ganhoA + (A_sA_posB - disp_sA)
+        ganhoB = ganhoB + (A_sB_posA - disp_sB)
+        
         if XA > XB:
             contagem_A = contagem_A + 1
         elif XA == XB:
@@ -897,16 +920,17 @@ def comparacoes(amostra_A,amostra_B,rep):
             
     proporcao_A = contagem_A/rep
     proporcao_B = contagem_B/rep
+    difff_media = difff/rep
+    ganhoA_media = ganhoA/rep
+    ganhoB_media = ganhoB/rep
             
-    return (proporcao_A, proporcao_B)
-
-#spinner = stlt.spinner("Aguarde, cálculo em andamento. O processo pode demorar vários minutos")
+    return (proporcao_A, proporcao_B, difff_media, ganhoA_media, ganhoB_media)
 
 if stlt.button('Análise Comparativa'):
     if ((n_A < 1) or (n_B < 1)):
         stlt.write('Por favor, insira as informações solicitadas')
     else:
-        with stlt.spinner('Aguarde, cálculo em andamento. O processo pode demorar vários minutos'):
+        with stlt.spinner('Aguarde, cálculo em andamento. O processo pode demorar muito tempo'):
             planta_A = amostras (A_exercicio_A, n_A, t_A, M_inf_A, M_sup_A, taxa_inf_A, taxa_sup_A, Df_A, Dp_A, Dm_A)
             planta_B = amostras (A_exercicio_B, n_B, t_B, M_inf_B, M_sup_B, taxa_inf_B, taxa_sup_B, Df_B, Dp_B, Dm_B)
 
@@ -929,7 +953,10 @@ if stlt.button('Análise Comparativa'):
             minimo_grafico = min(ponto_minimo_A, ponto_minimo_B)
             maximo_grafico = max(ponto_maximo_A, ponto_maximo_B)
         
-            contagens = comparacoes (amostra_A, amostra_B, 10000)
+            contagens = comparacoes (amostra_A, amostra_B, A_exercicio_A, A_exercicio_B, 10000)
+            dif_teta = contagens[2]
+            ganho_pA = contagens[3]*100
+            ganho_pB = contagens[4]*100
         
         stlt.success('Análise concluída')
 
@@ -940,17 +967,20 @@ if stlt.button('Análise Comparativa'):
         stlt.write(f'A manutenção do sistema {id_A} tem desempenho superior à manutenção do sistema {id_B} com probabilidade', contagens[0])
         stlt.write(f'A manutenção do sistema {id_B} tem desempenho superior à manutenção do sistema {id_A} com probabilidade', contagens[1])
 
+        if dif_teta >= 0:
+            stlt.write(f'A diferença média no indicador de desempenho relativo da manutenção é da ordem de': dif_teta)
+            stlt.write(f'O sistema {id_B} pode se beneficiar de um ganho de disponibilidade da ordem de': ganho_pB, '%')
+        else:
+            stlt.write(f'A diferença média no indicador de desempenho relativo da manutenção é da ordem de': -dif_teta)
+            stlt.write(f'O sistema {id_A} pode se beneficiar de um ganho de disponibilidade da ordem de': ganho_pA, '%')
+        
         # PLOTAGEM DOS GRÁFICOS
-
         n_pontos = 1000
-
         passo = (maximo_grafico - minimo_grafico)/n_pontos
-
         JJJ1 = np.zeros(n_pontos)
         XXX1 = np.zeros(n_pontos)
         YYY1 = np.zeros(n_pontos)
         ZZZ1 = np.zeros(n_pontos)
-    
         JJJ2 = np.zeros(n_pontos)
         XXX2 = np.zeros(n_pontos)
         YYY2 = np.zeros(n_pontos)
@@ -982,22 +1012,9 @@ if stlt.button('Análise Comparativa'):
         ax.plot(JJJ2, ZZZ2, 'r') # label='Distribuição Empírica (S2)')
 
         ax.set_xlabel('Índice de Desempenho Relativo')
-        #ax.legend('Análise gráfica')
         
         stlt.write('Análise gráfica')
         stlt.write(f'Dados do sistema {id_A} (S1) apresentados em azul')
         stlt.write(f'Dados do sistema {id_B} (S2) apresentados em vermelho')
         stlt.pyplot(figura)
-        
-        
-        
-        #figura = plt.plot(JJJ1,XXX1,'b:',JJJ1,YYY1,'b--',JJJ1,ZZZ1,'b',JJJ2,XXX2,'r:',JJJ2,YYY2,'r--',JJJ2,ZZZ2,'r')
-        
-        #stlt.write('Análise gráfica')
-        #stlt.write(f'Dados do sistema {id_A} apresentados em azul')
-        #stlt.write(f'Dados do sistema {id_B} apresentados em vermelho')
-        #stlt.pyplot(figura)
-
-
-    
 
