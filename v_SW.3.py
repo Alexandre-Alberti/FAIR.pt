@@ -1002,11 +1002,11 @@ if stlt.button('Análise Comparativa'):
         stlt.write(f'A manutenção do sistema {id_B} tem desempenho superior à manutenção do sistema {id_A} com probabilidade', contagens[1])
 
         if dif_teta >= 0:
-            stlt.write(f'A diferença média no indicador de desempenho relativo da manutenção é da ordem de' dif_teta)
+            stlt.write(f'A diferença média no indicador de desempenho relativo da manutenção é da ordem de [dif_teta]')
             stlt.write(f'O sistema {id_B} pode se beneficiar de um ganho de disponibilidade da ordem de {ganho_pB} %')
             resultado_texto = f"A manutenção do sistema {id_A} tem desempenho superior à manutenção do sistema {id_B} com probabilidade {[contagens[0]*100} \n O sistema {id_B} pode se beneficiar de um ganho de disponibilidade da ordem de {ganho_pB} %" 
         else:
-            stlt.write(f'A diferença média no indicador de desempenho relativo da manutenção é da ordem de' -dif_teta)
+            stlt.write(f'A diferença média no indicador de desempenho relativo da manutenção é da ordem de [-dif_teta]')
             stlt.write(f'O sistema {id_A} pode se beneficiar de um ganho de disponibilidade da ordem de {ganho_pA} %')
             resultado_texto = f"A manutenção do sistema {id_B} tem desempenho superior à manutenção do sistema {id_A} com probabilidade {[contagens[0]*100} \n O sistema {id_A} pode se beneficiar de um ganho de disponibilidade da ordem de {ganho_pA} %" 
         
