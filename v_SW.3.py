@@ -14,10 +14,6 @@ from scipy.integrate import quad
 from matplotlib import pyplot as plt
 import scipy.optimize as opt
 from scipy import stats as st
-#from fractions import Fraction
-#from decimal import Decimal
-#from math import log10
-#from PIL import Image
 
 def decimal(p):
     algs = len(p)
