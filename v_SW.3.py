@@ -138,25 +138,26 @@ stlt.write('<font color="black" size="5"><b>Tempo estimado de atividades de manu
 
 #Medida de tempo
 opcoes_tempo = ["Minuto","Hora","Dia"]
-unidade_A1 = stlt.selectbox("Medida de tempo de referência (S1):", opcoes_tempo)
+#unidade_A1 = stlt.selectbox("Medida de tempo de referência (S1):", opcoes_tempo)
 
-if unidade_A1 == 'Minuto':
-    div_A1 = 60*24
-elif unidade_A1 == 'Hora':
-    div_A1 = 24
-else:
-    div_A1 = 1
+#if unidade_A1 == 'Minuto':
+#    div_A1 = 60*24
+#elif unidade_A1 == 'Hora':
+#    div_A1 = 24
+#else:
+#    div_A1 = 1
+div_A1 = 1
 
-Df_A_min = stlt.number_input("Tempo médio para manutenção corretiva de falhas críticas (mínimo) (S1):")
-Df_A_max = stlt.number_input("Tempo médio para manutenção corretiva de falhas críticas (máximo) (S1):")
+Df_A_min = stlt.number_input("Tempo médio para manutenção corretiva de falhas críticas (estimativa mínima em horas) (S1):")
+Df_A_max = stlt.number_input("Tempo médio para manutenção corretiva de falhas críticas (estimativa máxima em horas) (S1):")
 Df_A = [Df_A_min/div_A1, Df_A_max/div_A1]
 
-Dp_A_min = stlt.number_input("Tempo médio para manutenção preventiva geral (mínimo) (S1):")
-Dp_A_max = stlt.number_input("Tempo médio para manutenção preventiva geral (máximo) (S1):")
+Dp_A_min = stlt.number_input("Tempo médio para manutenção preventiva geral (estimativa mínima em horas) (S1):")
+Dp_A_max = stlt.number_input("Tempo médio para manutenção preventiva geral (estimativa máxima em horas) (S1):")
 Dp_A = [Dp_A_min/div_A1, Dp_A_max/div_A1]
 
-Dm_A_min = stlt.number_input("Tempo médio para reparo pontual (mínimo) (S1):")
-Dm_A_max = stlt.number_input("Tempo médio para reparo pontual (máximo) (S1):")
+Dm_A_min = stlt.number_input("Tempo médio para reparo pontual (estimativa mínima em horas) (S1):")
+Dm_A_max = stlt.number_input("Tempo médio para reparo pontual (estimativa máxima em horas) (S1):")
 Dm_A = [Dm_A_min/div_A1, Dm_A_max/div_A1]
 
 #Análise de Confiabilidade
@@ -167,13 +168,14 @@ if n_A == '':
 else:
     n_A = int(n_A)
 
-unidade_A12 = stlt.selectbox("Medida de tempo para análise de confiabilidade (S1)", opcoes_tempo)
-if unidade_A12 == 'Minuto':
-    div_A12 = 60*24
-elif unidade_A12 == 'Hora':
-    div_A12 = 24
-else:
-    div_A12 = 1
+#unidade_A12 = stlt.selectbox("Medida de tempo para análise de confiabilidade (S1)", opcoes_tempo)
+#if unidade_A12 == 'Minuto':
+#    div_A12 = 60*24
+#elif unidade_A12 == 'Hora':
+#    div_A12 = 24
+#else:
+#    div_A12 = 1
+div_A12 = 1
 
 t_A = list(np.zeros(n_A))
 M_inf_A = list(np.zeros(n_A))
@@ -185,7 +187,7 @@ for i in range(0,n_A):
     #stlt.text(f'Especialista {i+1}')
     stlt.write(f'<font color="blue" size="5"><b>Especialista {i+1}</b></font>', unsafe_allow_html=True)
     
-    t_Ai = stlt.text_input(f"Marcos temporais de referência (S1.E{i+1}):")
+    t_Ai = stlt.text_input(f"Marcos temporais de referência - horas de operação (S1.E{i+1}):")
     t_Ai = vetorizar(t_Ai, div_A12)
     t_A[i] = t_Ai
     
@@ -224,26 +226,26 @@ stlt.write('<font color="black" size="5"><b>Tempo estimado de atividades de manu
 
 #stlt.text("Medida de tempo:")
 opcoes_tempo_2 = ["Minuto","Hora","Dia"]
-unidade_B1 = stlt.selectbox("Medida de tempo (S2):", opcoes_tempo_2)
+#unidade_B1 = stlt.selectbox("Medida de tempo (S2):", opcoes_tempo_2)
 
-if unidade_B1 == 'Minuto':
-    div_B1 = 60*24
-elif unidade_A1 == 'Hora':
-    div_B1 = 24
-else:
-    div_B1 = 1
+#if unidade_B1 == 'Minuto':
+#    div_B1 = 60*24
+#elif unidade_A1 == 'Hora':
+#    div_B1 = 24
+#else:
+#    div_B1 = 1
+div_B1 = 1
 
-
-Df_B_min = stlt.number_input("Tempo médio para manutenção corretiva de falhas críticas (mínimo) (S2):")
-Df_B_max = stlt.number_input("Tempo médio para manutenção corretiva de falhas críticas (máximo) (S2):")
+Df_B_min = stlt.number_input("Tempo médio para manutenção corretiva de falhas críticas (estimativa mínima em horas) (S2):")
+Df_B_max = stlt.number_input("Tempo médio para manutenção corretiva de falhas críticas (estimativa máxima em horas) (S2):")
 Df_B = [Df_B_min/div_B1, Df_B_max/div_B1]
 
-Dp_B_min = stlt.number_input("Tempo médio para manutenção preventiva geral (mínimo) (S2):")
-Dp_B_max = stlt.number_input("Tempo médio para manutenção preventiva geral (máximo) (S2):")
+Dp_B_min = stlt.number_input("Tempo médio para manutenção preventiva geral (estimativa mínima em horas) (S2):")
+Dp_B_max = stlt.number_input("Tempo médio para manutenção preventiva geral (estimativa máxima em horas) (S2):")
 Dp_B = [Dp_B_min/div_B1, Dp_B_max/div_B1]
 
-Dm_B_min = stlt.number_input("Tempo médio para reparo pontual (mínimo) (S2):")
-Dm_B_max = stlt.number_input("Tempo médio para reparo pontual (máximo) (S2):")
+Dm_B_min = stlt.number_input("Tempo médio para reparo pontual (estimativa mínima em horas) (S2):")
+Dm_B_max = stlt.number_input("Tempo médio para reparo pontual (estimativa máxima em horas) (S2):")
 Dm_B = [Dm_B_min/div_B1, Dm_B_max/div_B1]
 
 # Análise de Confiabilidade (S2)
@@ -255,13 +257,14 @@ if n_B == '':
 else:
     n_B = int(n_B)
 
-unidade_B12 = stlt.selectbox("Medida de tempo para análise de confiabilidade (S2)", opcoes_tempo_2)
-if unidade_B12 == 'Minuto':
-    div_B12 = 60*24
-elif unidade_B12 == 'Hora':
-    div_B12 = 24
-else:
-    div_B12 = 1
+#unidade_B12 = stlt.selectbox("Medida de tempo para análise de confiabilidade (S2)", opcoes_tempo_2)
+#if unidade_B12 == 'Minuto':
+#    div_B12 = 60*24
+#elif unidade_B12 == 'Hora':
+#    div_B12 = 24
+#else:
+#    div_B12 = 1
+div_B12 = 1
 
 t_B = list(np.zeros(n_B))
 M_inf_B = list(np.zeros(n_B))
@@ -273,7 +276,7 @@ for i in range(0,n_B):
     #stlt.text(f'Especialista {i+1}')
     stlt.write(f'<font color="blue" size="5"><b>Especialista {i+1}</b></font>', unsafe_allow_html=True)
     
-    t_Bi = stlt.text_input(f"Marcos temporais de referência (S2.E{i+1}):")
+    t_Bi = stlt.text_input(f"Marcos temporais de referência - horas de operação (S2.E{i+1}):")
     t_Bi = vetorizar(t_Bi, div_B12)
     t_B[i] = t_Bi
     
