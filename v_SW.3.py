@@ -40,9 +40,9 @@ def send_email(to_email, subject, body):
         text = msg.as_string()
         server.sendmail(from_email, to_email, text)
         server.quit()
-        st.success('Email enviado com sucesso!')
+        stlt.success('Email enviado com sucesso!')
     except Exception as e:
-        st.error(f'Erro ao enviar email: {e}')
+        stlt.error(f'Erro ao enviar email: {e}')
 #
 #
 #
@@ -609,13 +609,13 @@ def Res(A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_):
     return (indice_relativo)
 
 #Dados de entrada - Parâmetros de execução
-percentil_referencia_pl = 95
+percentil_referencia_pl = 100
 B_grande = 100000000000000000000
 #num_it = 150
 
 def amostras (A_exercicio, n, t_total, M_inf, M_sup, taxa_inf_todos, taxa_sup_todos, Df, Dp, Dm):
         
-    num_it = 100*n
+    num_it = 5*n
     amostra = np.zeros(num_it)
     amostras_especificas_por_informante = np.zeros((n,num_it))
 
