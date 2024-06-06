@@ -964,7 +964,8 @@ if stlt.button('Análise Comparativa'):
     if ((n_A < 1) or (n_B < 1)):
         stlt.write('Por favor, insira as informações solicitadas')
     else:
-        with stlt.spinner('Aguarde, cálculo em andamento. O processo pode demorar muito tempo'):
+        numero_iteracoes_ref = 100*(n_A + n_B)
+        with stlt.spinner(f'Aguarde, cálculo em andamento. \n O processo pode levar bastante tempo (algumas horas). \n O sistema está configurado para rodar {numero_iteracoes_ref} iterações.' \n Não desligue a aplicação e não desconecte a internet. \n Ao final dos cálculos, os resultados serão enviados por email'):
             planta_A = amostras (A_exercicio_A, n_A, t_A, M_inf_A, M_sup_A, taxa_inf_A, taxa_sup_A, Df_A, Dp_A, Dm_A)
             planta_B = amostras (A_exercicio_B, n_B, t_B, M_inf_B, M_sup_B, taxa_inf_B, taxa_sup_B, Df_B, Dp_B, Dm_B)
 
