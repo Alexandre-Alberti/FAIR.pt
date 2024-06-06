@@ -602,9 +602,9 @@ def Res(A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_):
         
     indice_relativo = (A_exercicio-A_ref) / (1-A_ref)
         
-    print('T base', T_politica_base, 'Downtime', fun_A, 'Disponibilidade', A_ref)
+    stlt.write('T base', T_politica_base, 'Downtime', fun_A, 'Disponibilidade', A_ref)
         
-    print('Índice Relativo', indice_relativo)
+    #('Índice Relativo', indice_relativo)
         
     return (indice_relativo)
 
@@ -756,12 +756,12 @@ def amostras (A_exercicio, n, t_total, M_inf, M_sup, taxa_inf_todos, taxa_sup_to
             #Dm_ = rd.uniform (Dm[0], Dm[1], 1)
 
             indice_relativo = Res (A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_)
-            print('indice relativo',indice_relativo)
+            stlt.write('indice relativo',indice_relativo)
     
             amostra[n_iteracoes_validas] = indice_relativo #acumulando dados
             amostras_especificas_por_informante[linha][n_iteracoes_validas] = indice_relativo
             n_iteracoes_validas = n_iteracoes_validas + 1
-            print('i =', n_iteracoes_validas)
+            stlt.write('i =', n_iteracoes_validas)
             
             #stlt.write('iteração', n_iteracoes_validas)
         except:
