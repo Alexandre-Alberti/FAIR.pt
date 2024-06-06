@@ -602,30 +602,30 @@ def Res(A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_):
         
     indice_relativo = (A_exercicio-A_ref) / (1-A_ref)
         
-    stlt.write('T base', T_politica_base, 'Downtime', fun_A, 'Disponibilidade', A_ref)
+    #stlt.write('T base', T_politica_base, 'Downtime', fun_A, 'Disponibilidade', A_ref)
         
     #('Índice Relativo', indice_relativo)
         
     return (indice_relativo)
 
 #Dados de entrada - Parâmetros de execução
-percentil_referencia_pl = 100
+percentil_referencia_pl = 95
 B_grande = 100000000000000000000
 #num_it = 150
 
 def amostras (A_exercicio, n, t_total, M_inf, M_sup, taxa_inf_todos, taxa_sup_todos, Df, Dp, Dm):
         
-    num_it = 5*n
+    num_it = 100*n
     amostra = np.zeros(num_it)
     amostras_especificas_por_informante = np.zeros((n,num_it))
 
     #for i in range (0, num_it):
     n_iteracoes_validas = 0
-    while n_iteracoes_validas < (num_it-1):
+    while n_iteracoes_validas < (num_it):
         #n_iteracoes_validas = n_iteracoes_validas + 1
         try:
-            stlt.write('iteração', n_iteracoes_validas)
-            print('antes =', n_iteracoes_validas)
+            stlt.write('iteração', n_iteracoes_validas+1)
+            #print('antes =', n_iteracoes_validas)
             r = rd.rand()
             p = 0     # número do informante cuja análise será considerada
             for j in range (1, n+1):
@@ -756,12 +756,12 @@ def amostras (A_exercicio, n, t_total, M_inf, M_sup, taxa_inf_todos, taxa_sup_to
             #Dm_ = rd.uniform (Dm[0], Dm[1], 1)
 
             indice_relativo = Res (A_exercicio, eta_, beta_, grau_pol, coefs_pol, Df_, Dp_, Dm_)
-            stlt.write('indice relativo',indice_relativo)
+            #stlt.write('indice relativo',indice_relativo)
     
             amostra[n_iteracoes_validas] = indice_relativo #acumulando dados
             amostras_especificas_por_informante[linha][n_iteracoes_validas] = indice_relativo
             n_iteracoes_validas = n_iteracoes_validas + 1
-            stlt.write('i =', n_iteracoes_validas)
+            #stlt.write('i =', n_iteracoes_validas)
             
             #stlt.write('iteração', n_iteracoes_validas)
         except:
