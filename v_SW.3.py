@@ -624,7 +624,7 @@ def amostras (A_exercicio, n, t_total, M_inf, M_sup, taxa_inf_todos, taxa_sup_to
     while n_iteracoes_validas < (num_it-1):
         #n_iteracoes_validas = n_iteracoes_validas + 1
         try:
-            #stlt.write('iteração', n_iteracoes_validas)
+            stlt.write('iteração', n_iteracoes_validas)
             print('antes =', n_iteracoes_validas)
             r = rd.rand()
             p = 0     # número do informante cuja análise será considerada
